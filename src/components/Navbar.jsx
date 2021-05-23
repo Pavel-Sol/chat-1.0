@@ -1,18 +1,25 @@
 import {Toolbar, AppBar, Grid, Button} from '@material-ui/core'
 import {NavLink} from 'react-router-dom'
+import {useAuthState} from 'react-firebase-hooks/auth'
+import {useContext} from 'react'
 
 import { LOGIN_ROUTE} from '../utils/consts'
+import {Context} from './../index'
 
 const Navbar = () => {
-   const user = false
+   const {auth} = useContext(Context) 
+   const [user, loading, error] = useAuthState(auth);
 
    return(
       <AppBar position="static">
          <Toolbar variant="dense">
             <Grid container justify='flex-end'>
                {user 
-               ?<Button className='test' color='primary' variant='contained'>ВЫЙТИ</Button>
-               :<NavLink to={LOGIN_ROUTE}>
+               ? <Button onClick= {() => auth.signOut()}
+                className='test
+               ' color='primary'
+                variant='contained'>ВЫЙТИ</Button>
+               : <NavLink to={LOGIN_ROUTE}>
                   <Button color='primary' variant='contained'>ЛОГИН</Button>
                </NavLink>
                }
