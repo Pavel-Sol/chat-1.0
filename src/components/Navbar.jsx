@@ -16,8 +16,7 @@ const Navbar = () => {
             <Grid container justify='flex-end'>
                {user 
                ? <Button onClick= {() => auth.signOut()}
-                className='test
-               ' color='primary'
+                color='primary'
                 variant='contained'>ВЫЙТИ</Button>
                : <NavLink to={LOGIN_ROUTE}>
                   <Button color='primary' variant='contained'>ЛОГИН</Button>
