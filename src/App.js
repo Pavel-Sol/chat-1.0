@@ -7,7 +7,6 @@ function App() {
     <BrowserRouter>
       <Nabar />
       <AppRouter />
-      <h2>chat</h2>
     </BrowserRouter>
   );
 }
