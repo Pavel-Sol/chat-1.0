@@ -1,4 +1,5 @@
 import {Container, TextField, Button} from '@material-ui/core'
+import SendIcon from '@material-ui/icons/Send';
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import {useAuthState} from 'react-firebase-hooks/auth'
 import {useContext, useState} from 'react'
@@ -17,19 +18,20 @@ const Chat = () => {
       firestore.collection('messages').orderBy('createdAt')
    )
 
-   const sendMessage = async () => {
-      // console.log(value)
+
+   const sendMessage = () => {
       firestore.collection('messages').add({
-         uid: user.uid,
-         text: value,
-         displayName: user.displayName,
-         photoURL: user.photoURL,
-         createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      })
-      setValue('')
+               uid: user.uid,
+               text: value,
+               displayName: user.displayName,
+               photoURL: user.photoURL,
+               createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            setValue('')
    }
 
-   if(loadingMsg) {
+
+   if(loadingMsg || !user || !messages) {
       return <Loader/>
    }
 
@@ -40,7 +42,14 @@ const Chat = () => {
                <div className="messages">
                   {
                      messages.map((message) =>
-                        <div>{message.text}</div>)
+                        <div key={message.uid} 
+                        className={message.uid === user.uid? 'message__container-my' : 'message__container-alien'}>
+                           <div className='message__avatar'>
+                              <img src={message.photoURL} alt="" />
+                           </div>
+                           <div className={message.uid === user.uid? 'message__text-my' : 'message__text-alien'}>{message.text}</div>
+                        </div>
+                        )
                   }
                </div>
             </div>
@@ -56,6 +65,7 @@ const Chat = () => {
                      style={{marginLeft: '15px', marginTop: '10px'}}
                      variant="contained"
                      color="primary"
+                     endIcon={<SendIcon />}
                      onClick={sendMessage} >отправить</Button>
                </div>
             </div>

@@ -8,16 +8,9 @@ import {Context} from './../index'
 const Login = () => {
    const {auth} = useContext(Context)
 
-   // const login = () => {
-   //    const provider = new firebase.auth.GoogleAuthProvider()
-   //    auth.signInWithPopup(provider)
-   //    .then(res => console.log(res.user)) 
-   // }
-
    const login = async () => {
       const provider = new firebase.auth.GoogleAuthProvider()
       const {user} = await auth.signInWithPopup(provider)
-      console.log(user)
    }
 
 
